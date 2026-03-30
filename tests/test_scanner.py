@@ -534,3 +534,25 @@ class TestScan:
 
         assert result.custom_count == 1
         assert "UnknownType" in result.unknown
+
+
+# ── CLI (main) ────────────────────────────────────────────────────────────────
+
+
+class TestCLI:
+    def test_unknown_flag_warns(self, tmp_path, monkeypatch, capsys):
+        from comfyui_dependency_scanner.cli import main
+
+        wf_dir = tmp_path / "workflows"
+        wf_dir.mkdir()
+        comfyui_dir = tmp_path / "comfyui"
+        comfyui_dir.mkdir()
+
+        monkeypatch.setattr(
+            "sys.argv",
+            ["comfyui-scan", str(wf_dir), str(comfyui_dir), "--bogus"],
+        )
+        with pytest.raises(SystemExit):
+            main()
+        captured = capsys.readouterr()
+        assert "WARNING: Unknown flag '--bogus'" in captured.out
