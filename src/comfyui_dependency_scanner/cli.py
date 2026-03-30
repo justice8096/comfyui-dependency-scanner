@@ -56,6 +56,7 @@ def main() -> None:
         print_usage()
         sys.exit(0)
 
+    known_flags = {"--install", "--json", "--help", "-h"}
     manager_url = MANAGER_API_URL
     positional: list[str] = []
 
@@ -64,8 +65,11 @@ def main() -> None:
         if args[i] == "--manager-url" and i + 1 < len(args):
             manager_url = args[i + 1]
             i += 2
+        elif args[i] in known_flags:
+            i += 1
         elif args[i].startswith("--"):
-            i += 1  # skip known flags
+            print(f"WARNING: Unknown flag '{args[i]}' (ignored)")
+            i += 1
         else:
             positional.append(args[i])
             i += 1

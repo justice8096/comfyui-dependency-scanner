@@ -154,7 +154,7 @@ class TestScanWorkflows:
         assert "CLIPLoader" in result
 
     def test_handles_n8n_template_expressions(self, tmp_path):
-        raw = '{\"1\": {\"class_type\": \"LoadImage\", \"inputs\": {\"image\": \"{{$json.path}}\"}}'
+        raw = '{\"1\": {\"class_type\": \"LoadImage\", \"inputs\": {\"image\": \"{{$json.path}}\"}}}'
         (tmp_path / "n8n.json").write_text(raw)
         result = scan_workflows(tmp_path)
         assert "LoadImage" in result

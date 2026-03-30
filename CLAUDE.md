@@ -15,7 +15,7 @@ src/comfyui_dependency_scanner/
   scanner.py           — Core scanning, classification, and installation logic
   cli.py               — CLI entry point (comfyui-scan command)
 tests/
-  test_scanner.py      — 16 tests covering parsing, classification, edge cases
+  test_scanner.py      — 55 tests covering parsing, classification, installation, and edge cases
 ```
 
 ## Key Commands

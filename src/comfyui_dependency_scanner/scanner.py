@@ -154,7 +154,7 @@ def scan_core_comfyui_nodes(comfyui_dir: Path) -> set[str]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                content = open(fpath, encoding="utf-8", errors="ignore").read()
+                content = Path(fpath).read_text(encoding="utf-8", errors="ignore")
             except OSError:
                 continue
             for m in old_pattern.finditer(content):
@@ -255,9 +255,9 @@ def scan_custom_nodes_for_type(comfyui_dir: Path, class_type: str) -> str | None
                 if not fname.endswith(".py"):
                     continue
                 try:
-                    content = open(
-                        os.path.join(root, fname), encoding="utf-8", errors="ignore"
-                    ).read()
+                    content = Path(os.path.join(root, fname)).read_text(
+                        encoding="utf-8", errors="ignore"
+                    )
                 except OSError:
                     continue
                 if old_pat.search(content) or new_pat.search(content):
@@ -288,7 +288,7 @@ def install_via_git(github_url: str, comfyui_dir: Path) -> bool:
     """Clone a GitHub repo into custom_nodes/."""
     cn_dir = comfyui_dir / "custom_nodes"
     result = subprocess.run(
-        ["git", "clone", github_url],
+        ["git", "clone", "--", github_url],
         cwd=str(cn_dir),
         capture_output=True,
         text=True,
